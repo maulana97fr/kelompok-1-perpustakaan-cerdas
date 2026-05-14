@@ -1,7 +1,7 @@
 import numpy as np
 import random
 
-# JANGAN DIUBAH agar hasil eksperimen dapat direproduksi (Syarat Topik 6)
+# gausah diubah biar hasil kodeing sesuai sama syarat topik 6
 np.random.seed(13)
 random.seed(13)
 
@@ -12,7 +12,7 @@ def main():
     print("Ketik 'BANTUAN' untuk melihat perintah.")
     
     while True:
-        # Menunggu input perintah dari user
+        # tunggu input perintah dari user
         pilihan = input("\n[Menu Utama] Masukkan Perintah: ").strip().upper()
         
         if pilihan == "KELUAR":
