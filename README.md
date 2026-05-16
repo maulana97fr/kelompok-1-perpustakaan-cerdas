@@ -7,3 +7,10 @@ Smart Library Management &amp; Recommendation System
 - **Fairuz Addzikri Hakim_25051030063**: Implementasi Queue (Antrian Pemesanan).
 - **Erlangga Supranoto Anggota_25051030041**: Implementasi Graph (Sistem Rekomendasi Ko-pinjam).
 
+MATA KULIAH
+ALGORITMA DAN STRUKTR DATA
+S1 TEKNIK ELEKTRO
+UNIVERSITAS NEGERI YOGYAKARTA
+
+
+
