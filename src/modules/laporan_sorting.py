@@ -3,9 +3,7 @@ import time
 import random
 
 from dataclasses import dataclass, field
-from typing import Optional, List, Dict, Tuple
-
-from modules.laporan_sorting import *
+import typing
 
 np.random.seed(13)
 random.seed(13)
