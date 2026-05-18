@@ -3,7 +3,7 @@ import time
 import random
 
 from dataclasses import dataclass, field
-import typing
+from typing import Optional, List, Dict, Tuple
 
 np.random.seed(13)
 random.seed(13)
