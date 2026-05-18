@@ -2,7 +2,7 @@
 
 class BSTNode:
     def __init__(self, buku):
-        self.buku = buku  # Menyimpan objek Buku dari starter code dosen
+        self.buku = buku  
         self.left = None
         self.right = None
 
@@ -19,7 +19,7 @@ class BSTKatalog:
         
         current = self.root
         while True:
-            # Membandingkan string ISBN (misal: 'ISBN-0001' < 'ISBN-0005')
+           
             if buku.isbn < current.buku.isbn:
                 if current.left is None:
                     current.left = new_node
@@ -31,7 +31,7 @@ class BSTKatalog:
                     break
                 current = current.right
             else:
-                # Jika ISBN sudah ada di pohon, tidak perlu dimasukkan lagi
+                
                 break
 
     def search(self, isbn):
@@ -39,7 +39,7 @@ class BSTKatalog:
         current = self.root
         while current:
             if isbn == current.buku.isbn:
-                return current.buku  # Mengembalikan objek Buku jika ditemukan
+                return current.buku 
             elif isbn < current.buku.isbn:
                 current = current.left
             else:
@@ -51,7 +51,6 @@ class BSTKatalog:
         current = self.root
         while current:
             if isbn == current.buku.isbn:
-                # Validasi sesuai aturan dosen (0=TERSEDIA, 1=DIPINJAM, 2=DIPESAN)
                 if status_baru in [0, 1, 2]:
                     current.buku.status = status_baru
                     return True
