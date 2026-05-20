@@ -1,6 +1,6 @@
 # modul3_bst.py
 # Deskripsi: BST dengan kunci ISBN untuk pencarian, insert, dan delete katalog buku
-
+from src.data_structures.bst import BinarySearchTree
 from dataclasses import dataclass
 
 @dataclass

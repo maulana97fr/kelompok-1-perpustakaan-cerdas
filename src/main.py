@@ -2,13 +2,12 @@
 import sys
 import os
 
-# Trik biar Python gak eror 'ModuleNotFoundError' lagi
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 import random
-from src.modules.katalog_bst import BSTKatalog
+from src.modules.modul3_bst import BSTKatalog
 
-# Aturan Data sesuai Panduan Dosen (Seed 13)
+# Aturan data sesuai panduan (Seed 13)
 random.seed(13)
 KATEGORI = ['Fiksi', 'Sains', 'Teknik', 'Sejarah', 'Seni']
 
@@ -31,7 +30,7 @@ def generate_koleksi(n=80):
 def main():
     bst = BSTKatalog()
     
-    # Otomatis memasukkan 80 data buku awal ke dalam BST kamu saat program start
+    # Otomatis memasukkan 80 data buku awal ke dalam BST
     for buku in generate_koleksi(80):
         bst.insert(buku)
 
