@@ -1,0 +1,85 @@
+=== SMART LIBRARY MANAGEMENT & RECOMMENDATION SYSTEM ===
+
+1. PESAN
+2. ANTRIAN
+3. BATALKAN_PESAN
+4. KELUAR
+
+Pilih: 1
+NIM   : 2400000001
+ISBN  : ISBN-0001
+
+Masuk antrian pemesanan
+
+1. PESAN
+2. ANTRIAN
+3. BATALKAN_PESAN
+4. KELUAR
+
+Pilih: 1
+NIM   : 2400000002
+ISBN  : ISBN-0001
+
+Masuk antrian pemesanan
+
+1. PESAN
+2. ANTRIAN
+3. BATALKAN_PESAN
+4. KELUAR
+
+Pilih: 1
+NIM   : 2400000003
+ISBN  : ISBN-0001
+
+Masuk antrian pemesanan
+
+1. PESAN
+2. ANTRIAN
+3. BATALKAN_PESAN
+4. KELUAR
+
+Pilih: 2
+ISBN : ISBN-0001
+
+=== ANTRIAN ===
+
+1 2400000001
+2 2400000002
+3 2400000003
+
+Big-O Queue traversal = O(n)
+
+1. PESAN
+2. ANTRIAN
+3. BATALKAN_PESAN
+4. KELUAR
+
+Pilih: 3
+NIM   : 2400000002
+ISBN  : ISBN-0001
+
+Pesanan dibatalkan
+
+1. PESAN
+2. ANTRIAN
+3. BATALKAN_PESAN
+4. KELUAR
+
+Pilih: 2
+ISBN : ISBN-0001
+
+=== ANTRIAN ===
+
+1 2400000001
+2 2400000003
+
+Big-O Queue traversal = O(n)
+
+1. PESAN
+2. ANTRIAN
+3. BATALKAN_PESAN
+4. KELUAR
+
+Pilih: 4
+
+Program selesai.
