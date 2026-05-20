@@ -1,0 +1,219 @@
+======================================================================
+LOG DOKUMENTASI ASISTENSI AI - TUGAS BESAR ALGORITMA & STRUKTUR DATA
+SMART LIBRARY MANAGEMENT & RECOMMENDATION SYSTEM
+================================================
+
+Dibuat oleh : Kelompok Smart Library
+Sistem CI   : GitHub + Visual Studio Code
+Target Code : Python 3.x
+Matakuliah  : Algoritma dan Struktur Data - Teknik Elektro UNY
+==============================================================
+
+---
+
+## SESI 1: IMPLEMENTASI STRUKTUR DATA QUEUE LINKED LIST
+
+[Context / Problem]
+
+* Project Smart Library menggunakan beberapa struktur data seperti Queue, Stack, BST, Graph BFS, Shell Sort, dan Merge Sort.
+* Dosen telah memberikan starter code Python dan struktur coding tidak boleh diubah.
+* Queue digunakan untuk sistem antrian pemesanan buku pada perpustakaan digital.
+* Dibutuhkan implementasi Queue berbasis Linked List yang sesuai dengan starter code dosen.
+
+[User Prompt]
+
+* "buat codingan bagian queue nya"
+* "apakah sesuai dengan struktur yang dosen saya buat?"
+* "jangan ubah struktur coding dosen"
+* "saya hanya mengerjakan queue"
+
+[AI Solusi & Implementasi]
+
+* Mengimplementasikan struktur Queue menggunakan Linked List.
+* Menggunakan atribut:
+
+  * `head`
+  * `tail`
+  * `size`
+* Membuat fungsi:
+
+  * `enqueue()`
+  * `dequeue()`
+  * `batal_pesan()`
+  * `tampil()`
+* Queue dibuat menggunakan konsep FIFO (First In First Out).
+* Struktur Queue tetap mengikuti starter code dosen tanpa perubahan besar pada alur program.
+* Queue digunakan untuk fitur:
+
+  * `PESAN`
+  * `ANTRIAN`
+  * `BATALKAN_PESAN`
+
+---
+
+## SESI 2: PENJELASAN SYNTAX DAN KONSEP FIFO
+
+[Context / Problem]
+
+* Dibutuhkan penjelasan detail syntax Queue untuk laporan dan presentasi project.
+* Penjelasan harus mudah dipahami mahasiswa semester 2.
+
+[User Prompt]
+
+* "jelaskan syntax queue"
+* "jelaskan FIFO pada studi kasus perpustakaan"
+* "jelaskan dengan bahasa semester 2"
+
+[AI Solusi & Implementasi]
+
+* Menjelaskan fungsi constructor Queue:
+
+  * `head` sebagai data paling depan
+  * `tail` sebagai data paling belakang
+  * `size` sebagai jumlah node
+* Menjelaskan proses:
+
+  * enqueue → menambah data ke belakang
+  * dequeue → mengambil data paling depan
+  * traversal → membaca seluruh queue
+* Menjelaskan konsep FIFO:
+
+  * anggota yang memesan lebih dulu mendapatkan giliran lebih dulu.
+* Memberikan ilustrasi antrian:
+
+  * A → B → C
+  * saat dequeue maka A keluar terlebih dahulu.
+* Menjelaskan hubungan FIFO dengan sistem perpustakaan digital.
+
+---
+
+## SESI 3: ANALISIS BIG-O QUEUE
+
+[Context / Problem]
+
+* Diperlukan analisis kompleksitas waktu dan ruang pada Queue untuk BAB Analisis Big-O.
+* Analisis digunakan sebagai bagian penilaian project.
+
+[User Prompt]
+
+* "jelaskan Big-O queue"
+* "buatkan analisis kompleksitas"
+* "buatkan tabel Big-O"
+
+[AI Solusi & Implementasi]
+
+* Melakukan analisis kompleksitas Queue:
+
+  1. enqueue()
+
+     * Time Complexity  : O(1)
+     * Space Complexity : O(n)
+
+  2. dequeue()
+
+     * Time Complexity  : O(1)
+     * Space Complexity : O(n)
+
+  3. tampil()
+
+     * Time Complexity  : O(n)
+     * Space Complexity : O(n)
+
+  4. batal_pesan()
+
+     * Time Complexity  : O(n)
+     * Space Complexity : O(n)
+
+* Menjelaskan alasan kompleksitas:
+
+  * enqueue dan dequeue langsung mengakses tail/head.
+  * traversal membutuhkan pembacaan seluruh node.
+  * batal_pesan melakukan traversal pencarian data.
+
+---
+
+## SESI 4: SIMULASI INPUT OUTPUT QUEUE
+
+[Context / Problem]
+
+* Dibutuhkan contoh simulasi penggunaan Queue pada Smart Library System.
+* Simulasi digunakan untuk dokumentasi laporan dan pengujian program.
+
+[User Prompt]
+
+* "buatkan simulasi input output queue"
+* "contoh penggunaan PESAN dan ANTRIAN"
+
+[AI Solusi & Implementasi]
+
+* Membuat simulasi command:
+
+  PESAN 2400000001 ISBN-0001
+  PESAN 2400000002 ISBN-0001
+  PESAN 2400000003 ISBN-0001
+
+* Menampilkan isi queue menggunakan:
+
+  ANTRIAN ISBN-0001
+
+* Output antrian:
+
+  1 2400000001
+  2 2400000002
+  3 2400000003
+
+* Simulasi pembatalan:
+
+  BATALKAN_PESAN 2400000002 ISBN-0001
+
+* Queue berubah menjadi:
+
+  2400000001 → 2400000003
+
+---
+
+## SESI 5: INTEGRASI QUEUE DENGAN MODUL PROGRAM
+
+[Context / Problem]
+
+* Queue harus terhubung dengan struktur data lain pada Smart Library System.
+
+[User Prompt]
+
+* "jelaskan queue terhubung dengan program lain"
+
+[AI Solusi & Implementasi]
+
+* Queue diintegrasikan dengan:
+
+  1. BST
+
+     * digunakan untuk mengecek ISBN buku sebelum masuk antrian.
+
+  2. Stack
+
+     * digunakan untuk menyimpan histori aksi undo.
+
+  3. Main Program
+
+     * menerima command:
+
+       * PESAN
+       * ANTRIAN
+       * BATALKAN_PESAN
+
+* Menjelaskan alur hubungan Queue dengan sistem perpustakaan digital secara keseluruhan.
+
+======================================================================
+STATUS AKHIR PROJECT:
+
+* Queue Linked List berhasil diimplementasikan.
+* Struktur starter code dosen tidak diubah.
+* Fitur Queue berjalan normal:
+
+  * PESAN
+  * ANTRIAN
+  * BATALKAN_PESAN
+* Analisis Big-O Queue selesai dibuat.
+* Dokumentasi Queue siap digunakan untuk laporan project.
+  ======================================================================
