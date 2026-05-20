@@ -64,6 +64,7 @@ Keunggulan:
 
 Tidak perlu ukuran tetap
 Mudah menambah dan menghapus data
+#
 
 ### Pembagian Tugas Kelompok
 - **Maulana Fatihah Rizki_25051030075**: Implementasi BST (Katalog Buku) & Fondasi Data Structures (Linked List).
