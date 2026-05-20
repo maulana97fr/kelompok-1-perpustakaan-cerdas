@@ -1,20 +1,11 @@
-# modul3_bst.py
-# Deskripsi: BST dengan kunci ISBN untuk pencarian, insert, dan delete katalog buku
-from src.data_structures.bst import BinarySearchTree
-from dataclasses import dataclass
-
-@dataclass
 class Buku:
-    isbn: str
-    judul: str
-    pengarang: str
-    kategori: str
-    status: int = 0
-    frek_pinjam: int = 0
-
-class BSTNode:
-    def __init__(self, buku):
-        self.buku = buku
+    def __init__(self, isbn, judul, pengarang, kategori):
+        self.isbn = isbn
+        self.judul = judul
+        self.pengarang = pengarang
+        self.kategori = kategori
+        self.status = 0  # 0: TERSEDIA, 1: DIPINJAM, 2: DIPESAN
+        self.frek_pinjam = 0
         self.left = None
         self.right = None
 
@@ -22,66 +13,65 @@ class BSTKatalog:
     def __init__(self):
         self.root = None
 
-    def insert(self, buku):
-        self.root = self._insert(self.root, buku)
+    def insert(self, b):
+        self.root = self._insert_rec(self.root, b)
 
-    def _insert(self, node, buku):
-        if node is None:
-            return BSTNode(buku)
-        if buku.isbn < node.buku.isbn:
-            node.left = self._insert(node.left, buku)
-        elif buku.isbn > node.buku.isbn:
-            node.right = self._insert(node.right, buku)
-        return node
+    def _insert_rec(self, root, b):
+        if root is None:
+            return b
+        if b.isbn < root.isbn:
+            root.left = self._insert_rec(root.left, b)
+        elif b.isbn > root.isbn:
+            root.right = self._insert_rec(root.right, b)
+        return root
 
     def search(self, isbn):
-        return self._search(self.root, isbn)
+        return self._search_rec(self.root, isbn)
 
-    def _search(self, node, isbn):
-        if node is None:
-            return None
-        if isbn == node.buku.isbn:
-            return node.buku
-        if isbn < node.buku.isbn:
-            return self._search(node.left, isbn)
-        return self._search(node.right, isbn)
-
-    def inorder(self):
-        hasil = []
-        self._inorder(self.root, hasil)
-        return hasil
-
-    def _inorder(self, node, hasil):
-        if node:
-            self._inorder(node.left, hasil)
-            hasil.append(node.buku)
-            self._inorder(node.right, hasil)
+    def _search_rec(self, root, isbn):
+        if root is None or root.isbn == isbn:
+            return root
+        if isbn < root.isbn:
+            return self._search_rec(root.left, isbn)
+        return self._search_rec(root.right, isbn)
 
     def delete(self, isbn):
-        self.root, deleted = self._delete(self.root, isbn)
-        return deleted
+        self.root, success = self._delete_rec(self.root, isbn)
+        return success
 
-    def _delete(self, node, isbn):
-        if node is None:
-            return node, False
-        if isbn < node.buku.isbn:
-            node.left, deleted = self._delete(node.left, isbn)
-            return node, deleted
-        elif isbn > node.buku.isbn:
-            node.right, deleted = self._delete(node.right, isbn)
-            return node, deleted
+    def _delete_rec(self, root, isbn):
+        if root is None:
+            return root, False
+        success = False
+        if isbn < root.isbn:
+            root.left, success = self._delete_rec(root.left, isbn)
+        elif isbn > root.isbn:
+            root.right, success = self._delete_rec(root.right, isbn)
         else:
-            if node.left is None:
-                return node.right, True
-            if node.right is None:
-                return node.left, True
-            successor = self._min_value(node.right)
-            node.buku = successor.buku
-            node.right, _ = self._delete(node.right, successor.buku.isbn)
-            return node, True
+            success = True
+            if root.left is None:
+                return root.right, success
+            elif root.right is None:
+                return root.left, success
+            temp = self._min_node(root.right)
+            root.isbn, root.judul, root.pengarang, root.kategori = temp.isbn, temp.judul, temp.pengarang, temp.kategori
+            root.status, root.frek_pinjam = temp.status, temp.frek_pinjam
+            root.right, _ = self._delete_rec(root.right, temp.isbn)
+        return root, success
 
-    def _min_value(self, node):
+    def _min_node(self, node):
         current = node
-        while current.left:
+        while current.left is not None:
             current = current.left
         return current
+
+    def inorder(self):
+        books = []
+        self._inorder_rec(self.root, books)
+        return books
+
+    def _inorder_rec(self, root, books):
+        if root:
+            self._inorder_rec(root.left, books)
+            books.append(root)
+            self._inorder_rec(root.right, books)
