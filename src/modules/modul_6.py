@@ -7,12 +7,11 @@ import time
 from dataclasses import dataclass, field
 
 # Import komponen dari modul-modul modular terpisah
-from src.modul1_queue import Queue
-from src.modul2_stack import Stack
-from src.modul3_bst import BSTKatalog, Buku
-from src.modul4_graph import GraphRekomendasi
-from src.modul5_sorting import shell_sort, merge_sort, bandingkan_runtime_spesifikasi
-
+from src.modules.modul1_queue import Queue
+from src.modules.modul2_stack import Stack
+from src.modules.modul3_bst import BSTKatalog, Buku
+from src.modules.modul4_graph import GraphRekomendasi
+from src.modules.modul5_sorting import shell_sort, merge_sort, bandingkan_runtime_spesifikasi
 # =========================================================
 # CONFIG PERPUSTAKAAN (SESUAI PARAMETER TOPIK 6)
 # =========================================================
