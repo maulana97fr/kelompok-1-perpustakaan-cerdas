@@ -1,0 +1,50 @@
+=== SMART LIBRARY MANAGEMENT & RECOMMENDATION SYSTEM ===
+
+1. CARI BUKU
+2. DELETE BUKU
+3. KELUAR
+
+Pilih: 1
+ISBN : ISBN-0001
+
+=== DATA BUKU ===
+ISBN: ISBN-0001
+Judul: Algoritma Vol.1
+Pengarang: Penulis-A
+Kategori: Teknik
+Status: TERSEDIA
+
+Big-O search BST = O(log n)
+
+=== SMART LIBRARY MANAGEMENT & RECOMMENDATION SYSTEM ===
+
+1. CARI BUKU
+2. DELETE BUKU
+3. KELUAR
+
+Pilih: 2
+ISBN : ISBN-0002
+
+Buku sukses dihapus dari katalog BST.
+Big-O delete BST = O(log n)
+
+=== SMART LIBRARY MANAGEMENT & RECOMMENDATION SYSTEM ===
+
+1. CARI BUKU
+2. DELETE BUKU
+3. KELUAR
+
+Pilih: 1
+ISBN : ISBN-0002
+
+Buku tidak ditemukan
+
+=== SMART LIBRARY MANAGEMENT & RECOMMENDATION SYSTEM ===
+
+1. CARI BUKU
+2. DELETE BUKU
+3. KELUAR
+
+Pilih: 3
+
+Program selesai.
