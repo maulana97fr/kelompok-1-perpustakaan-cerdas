@@ -1,574 +1,124 @@
-import numpy as np
+# modul5_sorting.py
+# Deskripsi: Algoritma Pengurutan Performa Tinggi (Shell Sort & Merge Sort)
+# Mengurutkan frekuensi peminjaman secara Descending (Terbanyak ke Terkecil)
+
 import time
 import random
 
-from dataclasses import dataclass, field
-from typing import Optional, List, Dict, Tuple
-
-np.random.seed(13)
-random.seed(13)
-
-KATEGORI = ['Fiksi', 'Sains', 'Teknik', 'Sejarah', 'Seni']
-
-STATUS = {'TERSEDIA': 0,'DIPINJAM': 1,'DIPESAN': 2}
-
-# DATA CLASS
-
-@dataclass
-class Buku:
-    isbn: str
-    judul: str
-    pengarang: str
-    kategori: str
-    status: int = 0
-
-
-@dataclass
-class Peminjaman:
-    transaksi_id: int
-    anggota_id: str
-    isbn: str
-    tgl_pinjam: float
-    durasi_hari: int = 14
-
-
-# LINKED LIST NODE
-
-class LLNode:
-
-    def __init__(self, data=None):
-
-        self.data = data
-        self.next = None
-
-
-# QUEUE
-
-class Queue:
-    """FIFO Queue untuk antrian pemesanan buku."""
-
-    def __init__(self):
-
-        self.head = None
-        self.tail = None
-        self._size = 0
-
-    def enqueue(self, data):
-        """Big-O: O(1)"""
-
-        new_node = LLNode(data)
-
-        if self.tail is None:
-
-            self.head = new_node
-            self.tail = new_node
-
-        else:
-
-            self.tail.next = new_node
-            self.tail = new_node
-
-        self._size += 1
-
-    def dequeue(self):
-        """Big-O: O(1)"""
-
-        if self.head is None:
-
-            return None
-
-        data = self.head.data
-
-        self.head = self.head.next
-
-        if self.head is None:
-
-            self.tail = None
-
-        self._size -= 1
-
-        return data
-
-    def is_empty(self):
-
-        return self._size == 0
-
-    def __len__(self):
-
-        return self._size
-
-
-# STACK
-
-class Stack:
-
-    def __init__(self):
-
-        self.top = None
-        self._size = 0
-
-    def push(self, data):
-        """Big-O: O(1)"""
-
-        new_node = LLNode(data)
-
-        new_node.next = self.top
-
-        self.top = new_node
-
-        self._size += 1
-
-    def pop(self):
-        """Big-O: O(1)"""
-
-        if self.top is None:
-
-            return None
-
-        data = self.top.data
-
-        self.top = self.top.next
-
-        self._size -= 1
-
-        return data
-
-    def peek(self):
-
-        return self.top.data if self.top else None
-
-    def is_empty(self):
-
-        return self._size == 0
-
-
-# BST NODE
-
-class BSTNode:
-
-    def __init__(self, buku):
-
-        self.buku = buku
-        self.left = None
-        self.right = None
-
-
-# BST KATALOG
-
-class BSTKatalog:
-
-    def __init__(self):
-
-        self.root = None
-
-    def insert(self, buku):
-
-        self.root = self._insert(self.root, buku)
-
-    def _insert(self, node, buku):
-
-        if node is None:
-
-            return BSTNode(buku)
-
-        if buku.isbn < node.buku.isbn:
-
-            node.left = self._insert(node.left, buku)
-
-        else:
-
-            node.right = self._insert(node.right, buku)
-
-        return node
-
-    def search(self, isbn):
-
-        return self._search(self.root, isbn)
-
-    def _search(self, node, isbn):
-
-        if node is None:
-
-            return None
-
-        if isbn == node.buku.isbn:
-
-            return node.buku
-
-        if isbn < node.buku.isbn:
-
-            return self._search(node.left, isbn)
-
-        return self._search(node.right, isbn)
-
-    def update_status(self, isbn, status):
-
-        buku = self.search(isbn)
-
-        if buku:
-
-            buku.status = status
-
-    def inorder(self):
-
-        hasil = []
-
-        self._inorder(self.root, hasil)
-
-        return hasil
-
-    def _inorder(self, node, hasil):
-
-        if node:
-
-            self._inorder(node.left, hasil)
-
-            hasil.append(node.buku)
-
-            self._inorder(node.right, hasil)
-
-
-# GRAPH REKOMENDASI
-
-class GraphRekBuku:
-
-    def __init__(self):
-
-        self.adj = {}
-
-    def add_copinjam(self, isbn_a, isbn_b):
-
-        if isbn_a not in self.adj:
-
-            self.adj[isbn_a] = []
-
-        self.adj[isbn_a].append(isbn_b)
-
-    def rekomendasikan(self, isbn, max_hop=2):
-
-        if isbn not in self.adj:
-
-            return []
-
-        visited = set()
-
-        q = Queue()
-
-        q.enqueue((isbn, 0))
-
-        visited.add(isbn)
-
-        hasil = []
-
-        while not q.is_empty():
-
-            current, level = q.dequeue()
-
-            if level >= max_hop:
-
-                continue
-
-            for tetangga in self.adj.get(current, []):
-
-                if tetangga not in visited:
-
-                    visited.add(tetangga)
-
-                    hasil.append(tetangga)
-
-                    q.enqueue((tetangga, level + 1))
-
-        return hasil
-
-
-# GENERATE KOLEKSI
-
-def generate_koleksi(n=80):
-
-    kata = ['Algoritma','Jaringan','Python','Data','Digital','Sistem','Kontrol','Sinyal','Elektronika','Fisika']
-
-    return [
-
-        Buku(
-            f'ISBN-{i:04d}',
-            f'{random.choice(kata)} Vol.{i}',
-            f'Penulis-{random.randint(1,20)}',
-            random.choice(KATEGORI)
-        )
-
-        for i in range(1, n+1)
-    ]
-
-
-# MAIN PROGRAM
-
-def main():
-
-    bst = BSTKatalog()
-
-    antrian_pesan = {}
-
-    riwayat_global = Stack()
-
-    graf_rek = GraphRekBuku()
-
-    tx_counter = 0
-
-    for buku in generate_koleksi(80):
-
-        bst.insert(buku)
-
-        antrian_pesan[buku.isbn] = Queue()
-
-    print('Smart Library System')
-    print('Ketik BANTUAN untuk daftar perintah')
-
-    while True:
-
-        cmd = input('\n>> ').split()
-
-        if len(cmd) == 0:
-
-            continue
-
-        perintah = cmd[0].upper()
-
-        # KATALOG
-
-        if perintah == 'KATALOG':
-
-            data = bst.inorder()
-
-            print('\n=== DAFTAR BUKU ===')
-
-            for buku in data:
-
-                print(
-                    buku.isbn,
-                    '|',
-                    buku.judul,
-                    '|',
-                    buku.kategori,
-                    '|',
-                    buku.status
-                )
-
-        # CARI BUKU
-
-        elif perintah == 'CARI_BUKU':
-
-            if len(cmd) < 2:
-
-                print('Format salah')
-                continue
-
-            isbn = cmd[1]
-
-            buku = bst.search(isbn)
-
-            if buku:
-
-                print('\n=== DATA BUKU ===')
-
-                print('ISBN      :', buku.isbn)
-                print('Judul     :', buku.judul)
-                print('Pengarang :', buku.pengarang)
-                print('Kategori  :', buku.kategori)
-                print('Status    :', buku.status)
-
+# =========================================================
+# 1. SHELL SORT (Kategori: In-place Comparison Sort)
+# Kompleksitas Waktu: Worst-case O(n log^2 n) atau O(n^2) tergantung gap
+# =========================================================
+def shell_sort(arr):
+    """
+    Mengurutkan list array berupa tuple/objek (buku, frekuensi) secara descending
+    menggunakan metode interval gap (Knuth atau Shell sequence).
+    """
+    n = len(arr)
+    gap = n // 2
+
+    # Lakukan loop selama interval gap lebih besar dari 0
+    while gap > 0:
+        for i in range(gap, n):
+            temp = arr[i]
+            j = i
+            
+            # Bandingkan nilai frekuensi peminjaman (indeks [1] atau properti frek_pinjam)
+            # Jika menggunakan objek Buku, ganti temp[1] menjadi temp.frek_pinjam
+            while j >= gap and (arr[j - gap].frek_pinjam if hasattr(arr[j - gap], 'frek_pinjam') else arr[j - gap][1]) < (temp.frek_pinjam if hasattr(temp, 'frek_pinjam') else temp[1]):
+                arr[j] = arr[j - gap]
+                j -= gap
+                
+            arr[j] = temp
+        gap //= 2
+
+
+# =========================================================
+# 2. MERGE SORT (Kategori: Divide and Conquer)
+# Kompleksitas Waktu: Worst-case O(n log n)
+# =========================================================
+def merge_sort(arr):
+    """
+    Mengurutkan list secara rekursif dengan membagi array menjadi dua sub-array
+    hingga berukuran 1, kemudian menggabungkannya kembali secara terurut (descending).
+    """
+    if len(arr) > 1:
+        mid = len(arr) // 2
+        left_half = arr[:mid]
+        right_half = arr[mid:]
+
+        # Rekursif membelah bagian kiri dan kanan
+        merge_sort(left_half)
+        merge_sort(right_half)
+
+        i = j = k = 0
+
+        # Proses Merge (Penggabungan) kedua sub-array secara descending
+        while i < len(left_half) and j < len(right_half):
+            # Ambil nilai pembanding frekuensi
+            val_left = left_half[i].frek_pinjam if hasattr(left_half[i], 'frek_pinjam') else left_half[i][1]
+            val_right = right_half[j].frek_pinjam if hasattr(right_half[j], 'frek_pinjam') else right_half[j][1]
+
+            if val_left >= val_right:  # >= untuk descending
+                arr[k] = left_half[i]
+                i += 1
             else:
+                arr[k] = right_half[j]
+                j += 1
+            k += 1
 
-                print('Buku tidak ditemukan')
+        # Salin sisa elemen dari left_half jika ada
+        while i < len(left_half):
+            arr[k] = left_half[i]
+            i += 1
+            k += 1
 
-        # PINJAM
-        
-        elif perintah == 'PINJAM':
+        # Salin sisa elemen dari right_half jika ada
+        while j < len(right_half):
+            arr[k] = right_half[j]
+            j += 1
+            k += 1
 
-            if len(cmd) < 3:
 
-                print('Format salah')
-                continue
-
-            nim = cmd[1]
-            isbn = cmd[2]
-
-            buku = bst.search(isbn)
-
-            if buku is None:
-
-                print('Buku tidak ditemukan')
-
-            elif buku.status == STATUS['TERSEDIA']:
-
-                bst.update_status(isbn, STATUS['DIPINJAM'])
-
-                tx_counter += 1
-
-                trx = Peminjaman(
-                    tx_counter,
-                    nim,
-                    isbn,
-                    time.time()
-                )
-
-                riwayat_global.push(trx)
-
-                print('Peminjaman berhasil')
-
-            else:
-
-                print('Buku sedang dipinjam')
-
-        # KEMBALIKAN
-
-        elif perintah == 'KEMBALIKAN':
-
-            if len(cmd) < 2:
-
-                print('Format salah')
-                continue
-
-            isbn = cmd[1]
-
-            buku = bst.search(isbn)
-
-            if buku:
-
-                bst.update_status(isbn, STATUS['TERSEDIA'])
-
-                print('Pengembalian berhasil')
-
-            else:
-
-                print('Buku tidak ditemukan')
-
-        # PESAN
-
-        elif perintah == 'PESAN':
-
-            if len(cmd) < 3:
-
-                print('Format salah')
-                continue
-
-            nim = cmd[1]
-            isbn = cmd[2]
-
-            if isbn in antrian_pesan:
-
-                antrian_pesan[isbn].enqueue(nim)
-
-                print('Masuk antrian')
-
-            else:
-
-                print('ISBN tidak ditemukan')
-
-        # ANTRIAN
-
-        elif perintah == 'ANTRIAN':
-
-            if len(cmd) < 2:
-
-                print('Format salah')
-                continue
-
-            isbn = cmd[1]
-
-            q = antrian_pesan.get(isbn)
-
-            if q is None:
-
-                print('ISBN tidak ditemukan')
-
-            elif q.is_empty():
-
-                print('Antrian kosong')
-
-            else:
-
-                cur = q.head
-
-                print('\n=== ANTRIAN ===')
-
-                while cur:
-
-                    print(cur.data)
-
-                    cur = cur.next
-
-        # UNDO
-
-        elif perintah == 'BATALKAN_TERAKHIR':
-
-            trx = riwayat_global.pop()
-
-            if trx is None:
-
-                print('Tidak ada transaksi')
-
-            else:
-
-                bst.update_status(
-                    trx.isbn,
-                    STATUS['TERSEDIA']
-                )
-
-                print('Undo berhasil')
-
-        # REKOMENDASI
+# =========================================================
+# 3. EVALUATOR RUNTIME (LAPORAN_BULAN)
+# Membandingkan kecepatan asimtotik aslinya di terminal
+# =========================================================
+def bandingkan_runtime_spesifikasi(transaksi, bst_katalog):
+    """
+    Mengumpulkan data frekuensi dari seluruh buku yang ada di katalog BST,
+    lakukan pengujian duplikat list untuk mengukur perbandingan running time 
+    dalam milidetik (ms) untuk ukuran N = 20, 80, dan 300 sesuai spesifikasi tugas.
+    """
+    print("\n=== EVALUASI PERFORMA RUNTIME RUNNING SORTING ===")
     
-        elif perintah == 'REKOMENDASI':
-
-            if len(cmd) < 2:
-
-                print('Format salah')
-                continue
-
-            isbn = cmd[1]
-
-            hasil = graf_rek.rekomendasikan(isbn)
-
-            print('\n=== REKOMENDASI ===')
-
-            if len(hasil) == 0:
-
-                print('Belum ada rekomendasi')
-
-            else:
-
-                for item in hasil:
-
-                    print(item)
-
-        # BANTUAN
-
-        elif perintah == 'BANTUAN':
-
-            print('\n=== DAFTAR PERINTAH ===')
-
-            print('KATALOG')
-            print('CARI_BUKU <isbn>')
-            print('PINJAM <nim> <isbn>')
-            print('KEMBALIKAN <isbn>')
-            print('PESAN <nim> <isbn>')
-            print('ANTRIAN <isbn>')
-            print('BATALKAN_TERAKHIR')
-            print('REKOMENDASI <isbn>')
-            print('KELUAR')
-
-        # KELUAR
-
-        elif perintah == 'KELUAR':
-
-            print('Program selesai')
-            break
-
+    # Ambil seluruh buku dari BST (menggunakan inorder traversal)
+    semua_buku = bst_katalog.inorder() if hasattr(bst_katalog, 'inorder') else []
+    
+    # Kasus simulasi perbandingan performa untuk N berbeda
+    for size in [20, 80, 300]:
+        # Jika buku di sistem kurang dari target size, kita generate sampel acak tiruan
+        if len(semua_buku) < size:
+            class DummyBuku:
+                def __init__(self, f): self.frek_pinjam = f
+            test_data_1 = [DummyBuku(random.randint(0, 100)) for _ in range(size)]
         else:
+            test_data_1 = list(semua_buku[:size])
+            
+        test_data_2 = list(test_data_1)
 
-            print('Perintah tidak dikenal')
+        # 1. Ukur Waktu Eksekusi Shell Sort
+        start_shell = time.perf_counter()
+        shell_sort(test_data_1)
+        end_shell = time.perf_counter()
+        t_shell = (end_shell - start_shell) * 1000  # Ubah ke milidetik (ms)
 
+        # 2. Ukur Waktu Eksekusi Merge Sort
+        start_merge = time.perf_counter()
+        merge_sort(test_data_2)
+        end_merge = time.perf_counter()
+        t_merge = (end_merge - start_merge) * 1000  # Ubah ke milidetik (ms)
 
-if __name__ == '__main__':
-
-    main()
+        print(f"Ukuran Data N = {size:<3} | Shell Sort: {t_shell:.4f} ms | Merge Sort: {t_merge:.4f} ms")
+        
+    print("=" * 55)
