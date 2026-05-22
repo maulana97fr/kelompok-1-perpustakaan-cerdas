@@ -204,6 +204,33 @@ Matakuliah  : Algoritma dan Struktur Data - Teknik Elektro UNY
 
 * Menjelaskan alur hubungan Queue dengan sistem perpustakaan digital secara keseluruhan.
 
+## SESI 6 : Penyusunan Laporan
+1. Diagram Arsitektur Sistem
+      [ User Prompt]:
+          “buatkan ini diagram arsitektur sistem untuk di laporan”
+
+      [AI Solution/Penyelesaian]:
+           Dibuat diagram arsitektur:
+           
+           User Interface
+           BST Katalog
+           Queue Antrian
+           Stack Riwayat
+           Graph Rekomendasi
+
+2. Penyusunan Runtime Table
+      [ User Prompt]:
+        “tabel runtime”
+
+  [AI Solution/Penyelesaian]:
+       Dibuat tabel kompleksitas algoritma:
+       
+       Struktur Data	   Operasi	     Kompleksitas
+       Stack          	Push/Pop	          O(1)
+       Queue	        Enqueue/Dequeue     	O(1)
+       BST	             Search	         O(log n)
+       Graph BFS      	Traversal         O(V+E)
+
 ======================================================================
 STATUS AKHIR PROJECT:
 
