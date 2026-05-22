@@ -1,7 +1,3 @@
-# modul5_sorting.py
-# Deskripsi: Algoritma Pengurutan Performa Tinggi (Shell Sort & Merge Sort)
-# Mengurutkan frekuensi peminjaman secara Descending (Terbanyak ke Terkecil)
-
 import time
 import random
 
